@@ -3,7 +3,7 @@ from flask_jwt import jwt_required, current_identity
 
 from App.controllers import (
     send_recommendation,
-    get_all_recommendations_json,
+    get_recommendation_json,
     get_student,
     get_recommendation,
     get_student_reclist_json
@@ -46,5 +46,5 @@ def view_recommendation(recID):
 # View all recommendations for all users
 @recommendation_views.route('/recs', methods=['GET'])
 def get_all_recs():
-    return jsonify(get_all_recommendations_json())
+    return jsonify(get_recommendation_json())
     

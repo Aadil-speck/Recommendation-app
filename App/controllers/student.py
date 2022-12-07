@@ -17,7 +17,7 @@ def get_all_students_json():
     students = [student.toJSON() for student in students]
     return students
 
-def get_all_recommendations_json():
+def get_recommendation_json():
     students = get_all_students()
     if not students:
         return None

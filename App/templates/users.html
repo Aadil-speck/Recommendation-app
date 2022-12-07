@@ -1,33 +1,35 @@
 {% extends "layout.html" %}
-{% block title %}App Users{% endblock %}
-{% block page %}App Users{% endblock %}
+{% block title %}Users{% endblock %}
+{% block page %}Users{% endblock %}
 
 {{ super() }}
 
 {% block content %}
-    <div class="row">
-        <p>
-            This is table is renderd on the Server. Flask gets the data from the database and uses jinja templates to dyanmically render this page when a request is sent to <a href="/view/users">/users</a>.
-        </p>
-    </div>
-    <div class="row">
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th><th>email</th><th>userType</th><th>firstName</th><th>lastName</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for user in users %}
-            <tr>
-              <td>{{user.id}}</td>
-              <td>{{user.email}}</td>
-              <td>{{user.userType}}</td>
-              <td>{{user.firstName}}</td>
-              <td>{{user.lastName}}</td>
-            </tr>
-          {% endfor %}
-        <tbody>
-      </table>
-    </div>
+
+<div class="header" style="text-align: center; transform:translateX(38%);">
+    <div class="new-container" style="align-items: flex-end;">
+      <div class="row">
+          <div class="col-2">
+             <h1 style="white-space: nowrap; padding-top: 20px; align-content: center; font-family: Arial, Helvetica, sans-serif;">All Sellers</h1>
+              </div>
+          </div>
+      </div>
+  </div>
+  <hr class="solid">
+  <div class='container'>
+      <div class="row">
+      {% for users in user%}
+      <div class="col">
+                <a href="/get_all_users/{{user.firstName}}" style="color: white; text-decoration: none; font-family: Arial, Helvetica, sans-serif;">{{user.firstNname}}</a>
+              </div>
+          </div>
+      </div>
+  </div>
+  <br/>
+      {%endfor%}
+  </div>
+  </div>    
+  <hr class="solid">
+
+
 {% endblock %}

@@ -5,6 +5,52 @@
 {{ super() }}
 
 {% block content %}
-    <h1>Flask MVC</h1>
-    <p>This is a boileplate flask application which follows the MVC pattern for structuring the project.</p>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" />
+
+{% for message in get_flashed_messages() %}
+
+<div class="alert alert-warning alert-dismissible show" role="alert">
+    {{message}}
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+
+
+    {%endfor%}
+
+
+</br>
+</br>
+<div class="row">
+    <div class="col" style="background-color:white; height:300px; padding-top: 90px;">
+        <div class="title text-center">
+            <h1 class="t text-center">Notifications and Recommendations</h1>
+        </br>
+            <a href="/signup" class="button-sign" style="background-color: #D68C45">Sign up now!</a>
+        </div>
+    </div>
+</div>
+</br>
+<hr class="solid">
+</br>
+</br>
+<div class='container'>
+    <div class="row">
+    {% for user in users%}
+    <div class="col">
+        <div class="card-body text-center mx-auto">
+            <div class='cvp'>
+                <h5 class="card-title font-weight-bold" style="color: white;">{{user.firstName}}</h5></br>
+            </div>
+        </div>
+    </div>
+</div>
+<br/>
+    {%endfor%}
+</div>
+</div>
+
+<hr/>
+</br>
 {% endblock %}

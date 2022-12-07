@@ -1,14 +1,66 @@
 import os
 from flask import Flask
+from wtforms import StringField,SubmitField, PasswordField, BooleanField, ValidationError,EmailField, DecimalField, SelectField,IntegerField,FloatField
+from wtforms.validators import DataRequired, EqualTo, Length
 from flask_login import LoginManager, current_user
 from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 from flask_cors import CORS
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
+from flask_sqlalchemy import SQLAlchemy
+from flask_wtf import FlaskForm
+from wtforms.validators import InputRequired, Email ,Length
 
+app=Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
+app.config['SECRET_KEY']='CharizardIsTheBestStarter'
+
+db=SQLAlchemy(app)
 
 from App.database import create_db
+
+
+
+
+
+#Login Setup
+login_manager=LoginManager()
+login_manager.init_app(app)
+login_manager.login_view='login'
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+
+@app.context_processor
+def base():
+    form=SearchForm()
+    return dict(form=form)
+
+locationdata='http://ip-api.com/json/'
+
+
+class LoginForm(FlaskForm):
+    email=EmailField("Email",validators=[DataRequired()])
+    password=PasswordField("Password",validators=[DataRequired()])
+    submit=SubmitField("Login")
+
+# Include Max-Min size
+class SignUpForm(FlaskForm):
+    firstName=StringField("Firstname",validators=[DataRequired()])
+    lastName=StringField("Lastname",validators=[DataRequired()])
+    userType=StringField("User type",validators=[DataRequired()])
+    email=EmailField("Email",validators=[DataRequired()])
+    password=PasswordField("Password",validators=[DataRequired()])
+    submit=SubmitField("Submit")
+
+
+
+
+
 
 
 from App.controllers import (
@@ -76,3 +128,34 @@ def create_app(config={}):
     setup_jwt(app)
     app.app_context().push()
     return app
+
+
+
+@app.route('/signup',methods=['GET','POST'])
+def signup():
+    form=SignUpForm()
+    if form.validate_on_submit():
+        user=User.query.filter_by(email=form.email.data).first()
+        if user is None:
+           newUser=User(firstName=form.firstName.data,lastName=form.lastName,email=form.email.data,password=form.password.data,)
+           newUser.set_password(newUser.password)
+        db.session.add(newUser)
+        db.session.commit()
+        form.username.data=''
+        form.email.data=''
+        return redirect(url_for('index'))
+    return render_template('signup.html',form=form)
+
+@app.route('/login',methods=['POST','GET'])
+def login():
+    form=LoginForm()
+    if form.validate_on_submit():
+        user=User.query.filter_by(email=form.email.data).first()
+        if user:
+            if check_password_hash(user.password, form.password.data):
+                login_user(user)
+                flash("Logged In Successful")
+                return redirect(url_for('index'))
+            else:
+                flash("Incorrect Password")
+    return render_template('login.html',form=form)

@@ -15,7 +15,7 @@ from App.controllers import (
     change_status,
     get_all_notifs_json,
     create_recommendation,
-    get_all_recommendations_json
+    get_recommendation_json
 )
 
 from wsgi import app
@@ -237,7 +237,7 @@ class UsersIntegrationTests(unittest.TestCase):
         
        
     # test_get_all_notifications_json()
-    def test_get_all_notifications_json(self):
+    def test_get_notification_json(self):
         
         staff = create_user("bob@mail.com", "pass", "staff", "Bob", "Jones")
         student = create_user("rob@mail.com", "pass", "student", "Rob", "Singh")
@@ -329,7 +329,7 @@ class UsersIntegrationTests(unittest.TestCase):
         
         
     # test_get_all_recommendations_json()
-    def test_get_all_recommendations_json(self):
+    def test_get_recommendation_json(self):
         staff = create_user("bob@mail.com", "pass", "staff", "Bob", "Jones")
         student = create_user("rob@mail.com", "pass", "student", "Rob", "Singh")
         
@@ -347,7 +347,7 @@ class UsersIntegrationTests(unittest.TestCase):
         student.recommendationList.append(newrec)
         db.session.add(newrec)
         
-        recs_json = get_all_recommendations_json()
+        recs_json = get_recommendation_json()
         
         db.session.remove()
         

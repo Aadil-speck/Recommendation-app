@@ -23,22 +23,17 @@ def send_recommendation(sentFromStaffID, sentToStudentID, recURL):
         db.session.rollback()
         return None
     return student
-
-def get_all_recommendations():
-    return Recommendation.query.all()
-
-def get_all_recommendations_json():
-    recs = get_all_recommendations()
-    if not recs:
-        return None
-    recs = [rec.toJSON() for rec in recs]
-    return recs
-
+    
 def get_recommendation(studentID, recID):
     rec = Recommendation.query.filter_by(sentToStudentID=studentID, recID=recID).first()
     if rec:
         return rec.toJSON()
     return None
 
-
+def get_recommendation_json():
+    recs = Recommendation.query.all()
+    if not recs:
+        return None
+    recommendation =  [rec.toJSON() for rec in recs]
+    return recomendation
 

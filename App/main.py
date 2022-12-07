@@ -1,7 +1,7 @@
 import os
 from flask import Flask
-from wtforms import StringField,SubmitField, PasswordField, BooleanField, ValidationError,EmailField, DecimalField, SelectField,IntegerField,FloatField
-from wtforms.validators import DataRequired, EqualTo, Length
+#from wtforms import StringField,SubmitField, PasswordField, BooleanField, ValidationError,EmailField, DecimalField, SelectField,IntegerField,FloatField
+#from wtforms.validators import DataRequired, EqualTo, Length
 from flask_login import LoginManager, current_user
 from flask_uploads import DOCUMENTS, IMAGES, TEXT, UploadSet, configure_uploads
 from flask_cors import CORS
@@ -9,8 +9,8 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
-from flask_wtf import FlaskForm
-from wtforms.validators import InputRequired, Email ,Length
+#from flask_wtf import FlaskForm
+#from wtforms.validators import InputRequired, Email ,Length
 from flask import jsonify
 
 app=Flask(__name__)
@@ -41,19 +41,6 @@ def base():
 
 
 
-class LoginForm(FlaskForm):
-    email=EmailField("Email",validators=[DataRequired()])
-    password=PasswordField("Password",validators=[DataRequired()])
-    submit=SubmitField("Login")
-
-# Include Max-Min size
-class SignUpForm(FlaskForm):
-    firstName=StringField("Firstname",validators=[DataRequired()])
-    lastName=StringField("Lastname",validators=[DataRequired()])
-    userType=StringField("User type",validators=[DataRequired()])
-    email=EmailField("Email",validators=[DataRequired()])
-    password=PasswordField("Password",validators=[DataRequired()])
-    submit=SubmitField("Submit")
 
 
 

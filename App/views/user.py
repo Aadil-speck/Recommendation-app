@@ -27,7 +27,6 @@ def loginAccount():
 @user_views.route('/signup', methods=['POST'])
 def createAccount():
     data = request.get_json()
-    return {"message": "Hello"}
     return user_signup(data['firstName'], data['lastName'], data['email'], data['password'], data['userType'])
 
 

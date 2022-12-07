@@ -8,16 +8,26 @@ from App.controllers import (
     get_all_users,
     get_all_users_json,
     get_user,
-    user_signup,
+    user_signup
 )
 
 user_views = Blueprint('user_views', __name__, template_folder='../templates')
+
+
+# LOGIN - LOGIN ACCOUNT
+
+@user_views.route('/login' , methods=['POST', 'GET'])
+def loginAccount():
+    data = request.get_json()
+    #user_login (data ['email'], data['password'])
+    return {"message": "Hello"}
 
 
 # SIGNUP - CREATE ACCOUNT
 @user_views.route('/signup', methods=['POST'])
 def createAccount():
     data = request.get_json()
+    return {"message": "Hello"}
     return user_signup(data['firstName'], data['lastName'], data['email'], data['password'], data['userType'])
 
 
@@ -41,7 +51,11 @@ def client_app():
     users = get_all_users_json()
     return jsonify(users)
 
+
 # STATIC View all Users
 @user_views.route('/static/users', methods=['GET'])
 def static_user_page():
   return send_from_directory('static', 'static-user.html')
+
+
+

@@ -11,16 +11,15 @@ from datetime import timedelta
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf import FlaskForm
 from wtforms.validators import InputRequired, Email ,Length
+from flask import jsonify
 
 app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
-app.config['SECRET_KEY']='CharizardIsTheBestStarter'
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///temp-database.db'
+app.config['SECRET_KEY']='secret key'
 
 db=SQLAlchemy(app)
 
 from App.database import create_db
-
-
 
 
 
@@ -40,7 +39,6 @@ def base():
     form=SearchForm()
     return dict(form=form)
 
-locationdata='http://ip-api.com/json/'
 
 
 class LoginForm(FlaskForm):
@@ -56,10 +54,6 @@ class SignUpForm(FlaskForm):
     email=EmailField("Email",validators=[DataRequired()])
     password=PasswordField("Password",validators=[DataRequired()])
     submit=SubmitField("Submit")
-
-
-
-
 
 
 
@@ -131,31 +125,31 @@ def create_app(config={}):
 
 
 
-@app.route('/signup',methods=['GET','POST'])
-def signup():
-    form=SignUpForm()
-    if form.validate_on_submit():
-        user=User.query.filter_by(email=form.email.data).first()
-        if user is None:
-           newUser=User(firstName=form.firstName.data,lastName=form.lastName,email=form.email.data,password=form.password.data,)
-           newUser.set_password(newUser.password)
-        db.session.add(newUser)
-        db.session.commit()
-        form.username.data=''
-        form.email.data=''
-        return redirect(url_for('index'))
-    return render_template('signup.html',form=form)
+#@app.route('/signup',methods=['GET','POST'])
+#def signup():
+ #   form=SignUpForm()
+  #  if form.validate_on_submit():
+   #     user=User.query.filter_by(email=form.email.data).first()
+    #    if user is None:
+     #      newUser=User(firstName=form.firstName.data,lastName=form.lastName,email=form.email.data,password=form.password.data,)
+      #     newUser.set_password(newUser.password)
+       # db.session.add(newUser)
+        #db.session.commit()
+        #form.username.data=''
+        #form.email.data=''
+        #return redirect(url_for('index'))
+    #return render_template('signup.html',form=form)
 
-@app.route('/login',methods=['POST','GET'])
-def login():
-    form=LoginForm()
-    if form.validate_on_submit():
-        user=User.query.filter_by(email=form.email.data).first()
-        if user:
-            if check_password_hash(user.password, form.password.data):
-                login_user(user)
-                flash("Logged In Successful")
-                return redirect(url_for('index'))
-            else:
-                flash("Incorrect Password")
-    return render_template('login.html',form=form)
+#@app.route('/login',methods=['POST','GET'])
+#def login():
+ #   form=LoginForm()
+  #  if form.validate_on_submit():
+   #     user=User.query.filter_by(email=form.email.data).first()
+    #    if user:
+     #       if check_password_hash(user.password, form.password.data):
+      #          login_user(user)
+       #         flash("Logged In Successful")
+        #        return redirect(url_for('index'))
+         #   else:
+          #      flash("Incorrect Password")
+    #return render_template('login.html',form=form)
